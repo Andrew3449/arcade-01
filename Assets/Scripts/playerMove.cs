@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 // using UnityEngine.TestTools.Constraints;
 
 
-public class Example : MonoBehaviour
+public class Player : MonoBehaviour
 {
     Rigidbody2D rb;
+    Player pl;
     private bool isGrounded = true;
     private bool isFalling = false;
     private bool isDead = false;
@@ -16,23 +18,37 @@ public class Example : MonoBehaviour
     [SerializeField] float jumpHeight = 1.0f;
      private int jumpCount = 0;
     float hInput; // horizontal input
+    Sprite currSprite;
+    public Sprite jumpAnim;
+    public Sprite restAnim;
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        pl = GetComponent<Player>();
+        currSprite = pl.GetComponent<SpriteRenderer>().sprite;
+        currSprite = restAnim;
     }
 
     void Update()
     {
-        hInput = Input.GetAxis("Horizontal");
-        if ((Input.GetButtonDown("Jump") && isGrounded) || (Input.GetButtonDown("Jump") && jumpCount < 2 && isFalling == true))
+        if (isDead)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
-            isGrounded = false;
-            jumpCount += 1;
+            Destroy(pl);
+            SceneManager.LoadScene("DeathScreen");
         }
-        print(jumpCount);
+        else
+        {
+            hInput = Input.GetAxis("Horizontal");
+            if ((Input.GetButtonDown("Jump") && isGrounded) || (Input.GetButtonDown("Jump") && jumpCount < 2 && isFalling == true))
+            {
+                currSprite = jumpAnim;
+                rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+                isGrounded = false;
+                jumpCount += 1;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -49,9 +65,8 @@ public class Example : MonoBehaviour
         {
             isDead = true;
             isGrounded = true;
-            rb.velocity = new Vector2(0, 0);
         }
-        else
+        else if (collision.collider.name != "WinBox")
         {
             isGrounded = true;
             jumpCount = 0; 
