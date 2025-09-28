@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     private bool isDead = false;
     [SerializeField] float speed = 2.0f;
     [SerializeField] float jumpHeight = 1.0f;
-     private int jumpCount = 0;
+    private int jumpCount = 0;
     float hInput; // horizontal input
     Sprite currSprite;
     public Sprite jumpAnim;
@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
         else if (collision.collider.name != "WinBox")
         {
             isGrounded = true;
-            jumpCount = 0; 
+            jumpCount = 0;
         }
     }
 }

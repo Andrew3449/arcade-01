@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerWin : MonoBehaviour
 {
-    public bool isWinner = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,7 @@ public class playerWin : MonoBehaviour
     {
         if (collision.collider.name == "WinBox")
         {
-            isWinner = true;
+            SceneManager.LoadScene("WinScreen");
         }
     }
 }
