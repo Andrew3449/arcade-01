@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
         else
         {
             hInput = Input.GetAxis("Horizontal");
+            flip();
             if ((Input.GetButtonDown("Jump") && isGrounded) || (Input.GetButtonDown("Jump") && jumpCount < 2 && isFalling == true))
             {
                 currSprite = jumpAnim;
@@ -57,6 +58,18 @@ public class Player : MonoBehaviour
         if (rb.velocity.y < 0)
         {
             isFalling = true;
+        }
+    }
+
+    private void flip()
+    {
+        if (hInput < 0)
+        {
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
     }
     void OnCollisionEnter2D(Collision2D collision)
