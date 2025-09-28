@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Callbacks;
+// using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 // using UnityEngine.TestTools.Constraints;
@@ -18,17 +18,13 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpHeight = 1.0f;
     private int jumpCount = 0;
     float hInput; // horizontal input
-    Sprite currSprite;
-    public Sprite jumpAnim;
-    public Sprite restAnim;
+
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         pl = GetComponent<Player>();
-        currSprite = pl.GetComponent<SpriteRenderer>().sprite;
-        currSprite = restAnim;
     }
 
     void Update()
@@ -44,7 +40,6 @@ public class Player : MonoBehaviour
             flip();
             if ((Input.GetButtonDown("Jump") && isGrounded) || (Input.GetButtonDown("Jump") && jumpCount < 2 && isFalling == true))
             {
-                currSprite = jumpAnim;
                 rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
                 isGrounded = false;
                 jumpCount += 1;
@@ -65,11 +60,11 @@ public class Player : MonoBehaviour
     {
         if (hInput < 0)
         {
-            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            GetComponent<SpriteRenderer>().flipX = true;
         }
         else
         {
-            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            GetComponent<SpriteRenderer>().flipX = false;
         }
     }
     void OnCollisionEnter2D(Collision2D collision)
