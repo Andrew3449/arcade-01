@@ -11,6 +11,7 @@ public class Example : MonoBehaviour
     Rigidbody2D rb;
     private bool isGrounded = true;
     private bool isFalling = false;
+    private bool isDead = false;
     [SerializeField] float speed = 2.0f;
     [SerializeField] float jumpHeight = 1.0f;
      private int jumpCount = 0;
@@ -44,7 +45,16 @@ public class Example : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
-        isGrounded = true;
-        jumpCount = 0;
+        if (collision.collider.name == "DeathBox")
+        {
+            isDead = true;
+            isGrounded = true;
+            rb.velocity = new Vector2(0, 0);
+        }
+        else
+        {
+            isGrounded = true;
+            jumpCount = 0; 
+        }
     }
 }
